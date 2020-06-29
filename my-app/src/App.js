@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person'
 import './Person/Person.css';
+import Radium, { StyleRoot } from 'radium';
 
 class App extends Component {
 
@@ -46,12 +47,12 @@ class App extends Component {
     const newInfo = [
       ...this.state.information,
     ]
-    
+
 
     newInfo[index] = inf;
-    
 
-    this.setState({information: newInfo});
+
+    this.setState({ information: newInfo });
   }
 
   onToggleInputHandler = () => {
@@ -63,9 +64,9 @@ class App extends Component {
     //const info = this.state.information; // bad practice
     const info = this.state.information.slice(); // good practice
     //const info = [...this.state.information]; //alternative
-    info.splice(removeIndex,1);
+    info.splice(removeIndex, 1);
     //this.setState(info); //Такой вариант тоже работает. Из-за ссылки??
-    this.setState({information: info});
+    this.setState({ information: info });
   }
 
   render() {
@@ -86,6 +87,9 @@ class App extends Component {
       backgroundColor: 'black',
       color: 'purple',
       padding: '10px',
+      ':hover': {
+        backgroundColor: 'gray',
+      },
     }
 
 
@@ -96,20 +100,36 @@ class App extends Component {
           {this.state.information.map((inform, index) => {
             return (
               <Person
-                click={()=> this.onRemoveInfoFromArray(index)}
-                info={inform.info} 
+                click={() => this.onRemoveInfoFromArray(index)}
+                info={inform.info}
                 key={inform.id}
-                changed={(event) => this.onChangeInputHandler(event, inform.id)}/>
+                changed={(event) => this.onChangeInputHandler(event, inform.id)} />
             )
           })}
-          </div>
+        </div>
       );
+
+      style.backgroundColor = 'green';
+      style.color = 'white';
+      style[':hover'] = {
+        backgroundColor: 'lightgreen',
+        color: 'black',
+      }
+    }
+
+    const classNames = [];
+    if (this.state.information.length <= 2) {
+      classNames.push('red');
+    }
+    if (this.state.information.length <= 1) {
+      classNames.push('bold');
     }
 
     console.log(this.state);
     return (
+      <StyleRoot>
       <div className="App">
-        <h1>Component from App.js</h1>
+        <h1 className={classNames.join(' ')}>Component from App.js</h1>
         <button
           style={style}
           onClick={this.onToggleInputHandler}
@@ -129,11 +149,12 @@ class App extends Component {
               <Person
                 info={this.state.information[3].info}>{this.state.additional_infomation[0].additional}</Person>
             </div> : null*/
-            infoCards
+          infoCards
         }
       </div>
+      </StyleRoot>
     );
   }
 }
 
-export default App;
+export default Radium(App);
