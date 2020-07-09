@@ -34,3 +34,24 @@
 .bold{
   font-weight: bold;
 }
+
+.button{
+  background-color: green;
+  color: purple;
+  padding: 10px;
+  cursor: pointer;
+}
+
+
+.button:hover {
+  color: lightgreen;
+  background-color: green;
+}
+
+.button.Red{
+  background-color: red;
+}
+
+.button.Red:hover{
+  background-color: salmon;
+}

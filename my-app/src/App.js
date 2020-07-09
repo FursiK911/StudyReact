@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
+import cssClasses from './App.css';
 import Person from './Person/Person'
-import './Person/Person.css';
-import Radium, { StyleRoot } from 'radium';
+import styled from 'styled-components'
 
 class App extends Component {
 
@@ -70,6 +69,8 @@ class App extends Component {
   }
 
   render() {
+    let btnClass = [cssClasses.button];
+
     /*return (
       <div className="App">
         <header className="App-header">
@@ -87,9 +88,6 @@ class App extends Component {
       backgroundColor: 'black',
       color: 'purple',
       padding: '10px',
-      ':hover': {
-        backgroundColor: 'gray',
-      },
     }
 
 
@@ -111,29 +109,24 @@ class App extends Component {
 
       style.backgroundColor = 'green';
       style.color = 'white';
-      style[':hover'] = {
-        backgroundColor: 'lightgreen',
-        color: 'black',
-      }
+      btnClass.push(cssClasses.Red);
     }
 
     const classNames = [];
     if (this.state.information.length <= 2) {
-      classNames.push('red');
+      classNames.push(cssClasses.red);
     }
     if (this.state.information.length <= 1) {
-      classNames.push('bold');
+      classNames.push(cssClasses.bold);
     }
+    
+ 
 
     console.log(this.state);
     return (
-      <StyleRoot>
-      <div className="App">
+      <div className={cssClasses.App}>
         <h1 className={classNames.join(' ')}>Component from App.js</h1>
-        <button
-          style={style}
-          onClick={this.onToggleInputHandler}
-        >Toggle Button</button>
+        <button className={btnClass.join(' ')} alt={this.state.showCards} onClick={this.onToggleInputHandler}>Toggle</button>
         {
           /*this.state.showCards ? //Как вариант, но в больших конструкциях тяжело будет уследить что к чему
             <div>
@@ -152,9 +145,8 @@ class App extends Component {
           infoCards
         }
       </div>
-      </StyleRoot>
     );
   }
 }
 
-export default Radium(App);
+export default App;
