@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import cssClasses from './App.css';
-import Person from './Person/Person'
-import styled from 'styled-components'
+import Persons from '../components/Persons/Persons'
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary'
+import Cockpit from '../components/Cockpit/Cockpit'
 
 class App extends Component {
 
@@ -69,7 +70,7 @@ class App extends Component {
   }
 
   render() {
-    let btnClass = [cssClasses.button];
+
 
     /*return (
       <div className="App">
@@ -93,57 +94,26 @@ class App extends Component {
 
     let infoCards = null;
     if (this.state.showCards) {
-      infoCards = (
-        <div>
-          {this.state.information.map((inform, index) => {
-            return (
-              <Person
-                click={() => this.onRemoveInfoFromArray(index)}
-                info={inform.info}
-                key={inform.id}
-                changed={(event) => this.onChangeInputHandler(event, inform.id)} />
-            )
-          })}
-        </div>
-      );
+      infoCards = <Persons
+        persons={this.state.information}
+        clicked={this.onRemoveInfoFromArray}
+        changed={this.onChangeInputHandler} />
 
       style.backgroundColor = 'green';
       style.color = 'white';
-      btnClass.push(cssClasses.Red);
     }
 
-    const classNames = [];
-    if (this.state.information.length <= 2) {
-      classNames.push(cssClasses.red);
-    }
-    if (this.state.information.length <= 1) {
-      classNames.push(cssClasses.bold);
-    }
-    
- 
+
+
+
 
     console.log(this.state);
     return (
       <div className={cssClasses.App}>
-        <h1 className={classNames.join(' ')}>Component from App.js</h1>
-        <button className={btnClass.join(' ')} alt={this.state.showCards} onClick={this.onToggleInputHandler}>Toggle</button>
-        {
-          /*this.state.showCards ? //Как вариант, но в больших конструкциях тяжело будет уследить что к чему
-            <div>
-              <Person
-                click={this.onClickButtonHandler.bind(this, 'Click Person1')}
-                info={this.state.information[0].info} />
-              <Person
-                click={() => this.onClickButtonHandler('Click Person2')} //лучше пользоваться bind-ом
-                info={this.state.information[1].info} />
-              <Person
-                changed={this.onChangeInputHandler}
-                info={this.state.information[2].info} />
-              <Person
-                info={this.state.information[3].info}>{this.state.additional_infomation[0].additional}</Person>
-            </div> : null*/
-          infoCards
-        }
+        <Cockpit showCards={this.state.showCards}
+          information={this.state.information}
+          toggle={this.onToggleInputHandler} />
+        {infoCards}
       </div>
     );
   }
