@@ -3,7 +3,8 @@ import cssClasses from './App.css';
 import Persons from '../components/Persons/Persons'
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary'
 import Cockpit from '../components/Cockpit/Cockpit'
-import WithClass from '../hoc/WithClass'
+import withClass from '../hoc/withClass'
+import Aux from '../hoc/Auxiliary'
 
 class App extends Component {
 
@@ -66,7 +67,12 @@ class App extends Component {
     newInfo[index] = inf;
 
 
-    this.setState({ information: newInfo });
+    this.setState((prevState, props) => {
+      return {
+        information: newInfo,
+        //changeCounter: prevState.changeCounter + 1;
+      }
+    });
   }
 
   onToggleInputHandler = () => {
@@ -123,15 +129,15 @@ class App extends Component {
 
     console.log(this.state);
     return (
-      <WithClass classes={cssClasses.App}>
-        <button onClick={() => this.setState({showCockpit: false})}>Remove Cockpit</button>
+      <Aux>
+        <button onClick={() => this.setState({ showCockpit: false })}>Remove Cockpit</button>
         {this.state.showCockpit ? <Cockpit showCards={this.state.showCards}
           informationLenght={this.state.information.length}
           toggle={this.onToggleInputHandler} /> : null}
         {infoCards}
-      </WithClass>
+      </Aux>
     );
   }
 }
 
-export default App;
+export default withClass(App, cssClasses.App);
