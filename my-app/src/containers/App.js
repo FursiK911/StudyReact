@@ -3,6 +3,7 @@ import cssClasses from './App.css';
 import Persons from '../components/Persons/Persons'
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary'
 import Cockpit from '../components/Cockpit/Cockpit'
+import WithClass from '../hoc/WithClass'
 
 class App extends Component {
 
@@ -122,13 +123,13 @@ class App extends Component {
 
     console.log(this.state);
     return (
-      <div className={cssClasses.App}>
+      <WithClass classes={cssClasses.App}>
         <button onClick={() => this.setState({showCockpit: false})}>Remove Cockpit</button>
         {this.state.showCockpit ? <Cockpit showCards={this.state.showCards}
           informationLenght={this.state.information.length}
           toggle={this.onToggleInputHandler} /> : null}
         {infoCards}
-      </div>
+      </WithClass>
     );
   }
 }
