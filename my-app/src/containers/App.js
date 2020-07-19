@@ -17,6 +17,19 @@ class App extends Component {
       { additional: "Some text" },
     ],
     showCards: false,
+    showCockpit: true,
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount');
+  }
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('[App.js] shouldComponentUpdate');
+    return true;
+  }
+
+  componentDidUpdate() {
+    console.log('[App.js] componentDidUpdate');
   }
 
   onClickButtonHandler = (message) => {
@@ -110,9 +123,10 @@ class App extends Component {
     console.log(this.state);
     return (
       <div className={cssClasses.App}>
-        <Cockpit showCards={this.state.showCards}
-          information={this.state.information}
-          toggle={this.onToggleInputHandler} />
+        <button onClick={() => this.setState({showCockpit: false})}>Remove Cockpit</button>
+        {this.state.showCockpit ? <Cockpit showCards={this.state.showCards}
+          informationLenght={this.state.information.length}
+          toggle={this.onToggleInputHandler} /> : null}
         {infoCards}
       </div>
     );

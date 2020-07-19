@@ -1,17 +1,27 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from './Cockpit.css'
 
 
 const cockpit = (props) => {
+
+    useEffect(() => {
+        console.log('[cockpit] useEffect');
+        //http request...
+        setTimeout(() => {
+            //alert('Time is Out!');
+            console.log('Time is Out!');
+        },1000);
+    },[props.information]);
+
     let btnClass = [classes.button];
     const classNames = [];
     
     if(props.showCards)
     {
-        if (props.information.length <= 2) {
+        if (props.informationLenght <= 2) {
             classNames.push(classes.red);
           }
-          if (props.information.length <= 1) {
+          if (props.informationLenght <= 1) {
             classNames.push(classes.bold);
           }
           btnClass.push(classes.Red);
@@ -20,12 +30,9 @@ const cockpit = (props) => {
         <div className={classes.Cockpit}>
             <h1 className={classNames.join(' ')}>Component from App.js</h1>
             <button className={btnClass.join(' ')} alt={props.showCards} onClick={props.toggle}>Toggle</button>
-            {
-                props.infoCards
-            }
         </div>
 
     );
 };
 
-export default cockpit;
+export default React.memo(cockpit);
