@@ -1,8 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import classes from './Cockpit.css'
 
 
 const cockpit = (props) => {
+
+    const toggleBtnRef = useRef(null);
+
 
     useEffect(() => {
         console.log('[cockpit] useEffect');
@@ -11,6 +14,7 @@ const cockpit = (props) => {
             //alert('Time is Out!');
             console.log('Time is Out!');
         },1000);
+        toggleBtnRef.current.click();
     },[props.information]);
 
     let btnClass = [classes.button];
@@ -29,7 +33,12 @@ const cockpit = (props) => {
     return (
         <div className={classes.Cockpit}>
             <h1 className={classNames.join(' ')}>Component from App.js</h1>
-            <button className={btnClass.join(' ')} alt={props.showCards} onClick={props.toggle}>Toggle</button>
+            <button 
+            className={btnClass.join(' ')} 
+            alt={props.showCards} 
+            onClick={props.toggle}
+            ref={toggleBtnRef}
+            >Toggle</button>
         </div>
 
     );
