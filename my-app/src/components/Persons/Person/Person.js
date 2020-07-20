@@ -12,8 +12,11 @@ class Person extends Component {
         this.inputElementRef = React.createRef();
     }
 
+    static contextType = AuthContext;
+
     componentDidMount() {
         this.inputElementRef.current.focus();
+        console.log(this.context.authenticated);
     }
 
     render() {
@@ -21,10 +24,7 @@ class Person extends Component {
             <Aux>
                 <button className={cssClasses.button}>Button</button>
                 <h2 onClick={this.props.click}>Component Person</h2>
-                <AuthContext.Consumer>
-                    {context =>
-                        context.authenticated ? <h3>Added information: {this.props.info}</h3> : <h3>Please Log In</h3>}
-                </AuthContext.Consumer>
+                {this.context.authenticated ? <h3>Added information: {this.props.info}</h3> : <h3>Please Log In</h3>}
                 <h4>{this.props.children}</h4>
                 <p>Random: {Math.floor(Math.random() * 20)}</p>
                 <input
