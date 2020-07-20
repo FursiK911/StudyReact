@@ -3,6 +3,7 @@ import Aux from '../../../hoc/Auxiliary'
 import cssClasses from './Person.css'
 import withClass from '../../../hoc/withClass'
 import PropTypes from 'prop-types'
+import AuthContext from '../../../context/auth-context'
 
 class Person extends Component {
 
@@ -11,7 +12,7 @@ class Person extends Component {
         this.inputElementRef = React.createRef();
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.inputElementRef.current.focus();
     }
 
@@ -20,14 +21,17 @@ class Person extends Component {
             <Aux>
                 <button className={cssClasses.button}>Button</button>
                 <h2 onClick={this.props.click}>Component Person</h2>
-                <h3>Added information: {this.props.info}</h3>
+                <AuthContext.Consumer>
+                    {context =>
+                        context.authenticated ? <h3>Added information: {this.props.info}</h3> : <h3>Please Log In</h3>}
+                </AuthContext.Consumer>
                 <h4>{this.props.children}</h4>
                 <p>Random: {Math.floor(Math.random() * 20)}</p>
                 <input
                     type="text"
                     onChange={this.props.changed}
-                    value={this.props.info} 
-                    ref={this.inputElementRef}/>
+                    value={this.props.info}
+                    ref={this.inputElementRef} />
             </Aux>
         );
     }

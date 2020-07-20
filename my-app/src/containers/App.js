@@ -5,6 +5,7 @@ import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary'
 import Cockpit from '../components/Cockpit/Cockpit'
 import withClass from '../hoc/withClass'
 import Aux from '../hoc/Auxiliary'
+import AuthContext from '../context/auth-context'
 
 class App extends Component {
 
@@ -20,6 +21,7 @@ class App extends Component {
     ],
     showCards: false,
     showCockpit: true,
+    auth: false,
   }
 
   componentDidMount() {
@@ -89,6 +91,10 @@ class App extends Component {
     this.setState({ information: info });
   }
 
+  authentication = () => {
+    this.setState({ auth: true })
+  }
+
   render() {
 
 
@@ -117,7 +123,7 @@ class App extends Component {
       infoCards = <Persons
         persons={this.state.information}
         clicked={this.onRemoveInfoFromArray}
-        changed={this.onChangeInputHandler} />
+        changed={this.onChangeInputHandler}/>
 
       style.backgroundColor = 'green';
       style.color = 'white';
@@ -131,10 +137,18 @@ class App extends Component {
     return (
       <Aux>
         <button onClick={() => this.setState({ showCockpit: false })}>Remove Cockpit</button>
-        {this.state.showCockpit ? <Cockpit showCards={this.state.showCards}
-          informationLenght={this.state.information.length}
-          toggle={this.onToggleInputHandler} /> : null}
-        {infoCards}
+        <AuthContext.Provider
+          value={
+            {
+              authenticated: this.state.auth,
+              login: this.authentication
+            }
+          }>
+          {this.state.showCockpit ? <Cockpit showCards={this.state.showCards}
+            informationLenght={this.state.information.length}
+            toggle={this.onToggleInputHandler} /> : null}
+          {infoCards}
+        </AuthContext.Provider>
       </Aux>
     );
   }
